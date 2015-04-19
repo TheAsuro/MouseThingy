@@ -17,8 +17,6 @@ namespace MouseThingy
             InitializeComponent();
 
             UpdateProcesses();
-
-            MouseInput.Start();
         }
 
         private void bnUpdate_Click(object sender, EventArgs e)
@@ -86,6 +84,31 @@ namespace MouseThingy
         {
             if (processList.SelectedItem != null)
                 HaloMemoryWriter.TryConnectToProcess(processList.SelectedItem.ToString());
+        }
+
+        public bool GetHMul(out float hmul)
+        {
+            return float.TryParse(tb_hmul.Text, out hmul);
+        }
+
+        public bool GetHAddr(out uint addr)
+        {
+            return uint.TryParse(tb_haddr.Text, out addr);
+        }
+
+        public bool GetVMul(out float hmul)
+        {
+            return float.TryParse(tb_vmul.Text, out hmul);
+        }
+
+        public bool GetVAddr(out uint addr)
+        {
+            return uint.TryParse(tb_vaddr.Text, out addr);
+        }
+
+        private void Test_Click(object sender, EventArgs e)
+        {
+            MouseInput.Start(this);
         }
     }
 }
