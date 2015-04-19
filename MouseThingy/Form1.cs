@@ -12,13 +12,13 @@ namespace MouseThingy
 {
     public partial class Form1 : Form
     {
-        
-
         public Form1()
         {
             InitializeComponent();
 
             UpdateProcesses();
+
+            MouseInput.Start();
         }
 
         private void bnUpdate_Click(object sender, EventArgs e)
