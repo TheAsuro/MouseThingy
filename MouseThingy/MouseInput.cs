@@ -5,15 +5,21 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 using System.Runtime.InteropServices;
+using System.Windows.Forms;
 
 namespace MouseThingy
 {
     static class MouseInput
     {
+        
+
         [DllImport("user32.dll")]
         public static extern bool GetCursorPos(out Vector2 lpPoint);
 
-        private static Timer mouseUpdate;
+        [DllImport("user32.dll")]
+        public static extern bool SetCursorPos(int X,int Y);
+
+        private static System.Threading.Timer mouseUpdate;
 
         private static Vector2 oldMousePos;
 
@@ -24,11 +30,12 @@ namespace MouseThingy
             _f = f;
             GetCursorPos(out oldMousePos);
 
-            mouseUpdate = new Timer(new TimerCallback(UpdateMouse), null, 0, 10);
+            mouseUpdate = new System.Threading.Timer(new TimerCallback(UpdateMouse), null, 0, 1);
         }
 
         private static void UpdateMouse(object thing)
         {
+
             Vector2 newMousePos;
             GetCursorPos(out newMousePos);
             Vector2 mouseDelta = newMousePos - oldMousePos;
@@ -55,7 +62,7 @@ namespace MouseThingy
             float vmul;
             if (_f.GetVMul(out vmul))
             {
-                float v_delta = mouseDelta.Y * vmul;
+                float v_delta = mouseDelta.Y * -vmul;
 
                 byte[] temp = new byte[4];
                 uint v_addr;
@@ -71,6 +78,10 @@ namespace MouseThingy
             }
 
             oldMousePos = newMousePos;
+
+            SetCursorPos(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+
+            oldMousePos = new Vector2(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
         }
     }
 
