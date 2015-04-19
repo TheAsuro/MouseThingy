@@ -47,7 +47,7 @@
             this.bnUpdate.TabIndex = 0;
             this.bnUpdate.Text = "Update Processes";
             this.bnUpdate.UseVisualStyleBackColor = true;
-            this.bnUpdate.Click += new System.EventHandler(this.button1_Click);
+            this.bnUpdate.Click += new System.EventHandler(this.bnUpdate_Click);
             // 
             // processList
             // 
@@ -119,7 +119,7 @@
             this.bnGo.TabIndex = 9;
             this.bnGo.Text = "GO";
             this.bnGo.UseVisualStyleBackColor = true;
-            this.bnGo.Click += new System.EventHandler(this.button2_Click);
+            this.bnGo.Click += new System.EventHandler(this.bnOk_Click);
             // 
             // Form1
             // 

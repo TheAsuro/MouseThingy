@@ -7,46 +7,39 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using System.Diagnostics;
 
 namespace MouseThingy
 {
     public partial class Form1 : Form
     {
-        const int PROCESS_VM_WRITE = 0x0020;
-        const int PROCESS_VM_OPERATION = 0x0008;
-
-        [DllImport("kernel32.dll")]
-        public static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
-
-        [DllImport("kernel32.dll")]
-        public static extern bool ReadProcessMemory(int hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
-
-        [DllImport("kernel32.dll")]
-        private static extern Boolean WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, IntPtr lpNumberOfBytesWritten);
-
-        private Process proc;
+        
 
         public Form1()
         {
             InitializeComponent();
+
+            UpdateProcesses();
         }
 
-        private void button1_Click(object sender, EventArgs e)
+        private void bnUpdate_Click(object sender, EventArgs e)
+        {
+            UpdateProcesses();
+        }
+
+        private void UpdateProcesses()
         {
             processList.Items.Clear();
 
-            Process[] processes = Process.GetProcesses();
-            foreach(Process process in processes)
-            {
-                processList.Items.Add(process.ProcessName);
-            }
+            HaloMemoryWriter.GetProcessNames().ForEach((string name) => processList.Items.Add(name));
         }
 
-        private void button2_Click(object sender, System.EventArgs e)
+        private void bnOk_Click(object sender, System.EventArgs e)
         {
             byte[] data = null;
+
+
+            if (dataList.SelectedItem == null)
+                return;
 
             switch (dataList.SelectedItem.ToString())
             {
@@ -86,22 +79,13 @@ namespace MouseThingy
                 return;
             }
 
-            int bytesWritten = 0;
-            IntPtr procHandle = OpenProcess(PROCESS_VM_WRITE | PROCESS_VM_OPERATION, false, proc.Id);
-            if (WriteProcessMemory(procHandle, memAddr, data, data.Length, new IntPtr(bytesWritten)))
-            {
-                MessageBox.Show("Success!\nGot " + data.Length + " bytes, \n" + "Wrote " + bytesWritten + " bytes!");
-            }
-            else
-            {
-                MessageBox.Show("Failed!\nGot " + data.Length + " bytes, \n" + "Wrote " + bytesWritten + " bytes!");
-            }            
+            MessageBox.Show(HaloMemoryWriter.WriteToMemory(memAddr, data).ToString());
         }
 
         private void processList_SelectionChangeCommitted(object sender, System.EventArgs e)
         {
-            Process[] procs = Process.GetProcessesByName(processList.SelectedItem.ToString());
-            proc = procs[0];
+            if (processList.SelectedItem != null)
+                HaloMemoryWriter.TryConnectToProcess(processList.SelectedItem.ToString());
         }
     }
 }
