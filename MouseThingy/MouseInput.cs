@@ -17,8 +17,11 @@ namespace MouseThingy
 
         private static Vector2 oldMousePos;
 
-        public static void Start()
+        private static Form1 _f;
+
+        public static void Start(Form1 f)
         {
+            _f = f;
             GetCursorPos(out oldMousePos);
 
             mouseUpdate = new Timer(new TimerCallback(UpdateMouse), null, 0, 10);
@@ -29,8 +32,43 @@ namespace MouseThingy
             Vector2 newMousePos;
             GetCursorPos(out newMousePos);
             Vector2 mouseDelta = newMousePos - oldMousePos;
-
+            
             // Update halo view angle here
+            float hmul;
+            if (_f.GetHMul(out hmul))
+            {
+                float h_delta = mouseDelta.X * hmul;
+
+                byte[] temp = new byte[4];
+                uint h_addr;
+                if (_f.GetHAddr(out h_addr))
+                {
+                    HaloMemoryWriter.ReadFromMemory(h_addr, temp);
+                    float h_prev = BitConverter.ToSingle(temp, 0);
+                    h_prev -= h_delta;
+                    h_prev = h_prev % (float)(2 * Math.PI);
+                    temp = BitConverter.GetBytes(h_prev);
+                    HaloMemoryWriter.WriteToMemory(h_addr, temp);
+                }
+            }
+
+            float vmul;
+            if (_f.GetVMul(out vmul))
+            {
+                float v_delta = mouseDelta.Y * vmul;
+
+                byte[] temp = new byte[4];
+                uint v_addr;
+                if (_f.GetVAddr(out v_addr))
+                {
+                    HaloMemoryWriter.ReadFromMemory(v_addr, temp);
+                    float v_prev = BitConverter.ToSingle(temp, 0);
+                    v_prev += v_delta;
+                    v_prev = (float)(((v_prev + (Math.PI / 2)) % Math.PI) - (Math.PI / 2));
+                    temp = BitConverter.GetBytes(v_prev);
+                    HaloMemoryWriter.WriteToMemory(v_addr, temp);
+                }
+            }
 
             oldMousePos = newMousePos;
         }

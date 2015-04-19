@@ -18,7 +18,7 @@ namespace MouseThingy
         private static extern IntPtr OpenProcess(int dwDesiredAccess, bool bInheritHandle, int dwProcessId);
 
         [DllImport("kernel32.dll")]
-        private static extern bool ReadProcessMemory(int hProcess, int lpBaseAddress, byte[] lpBuffer, int dwSize, ref int lpNumberOfBytesRead);
+        private static extern bool ReadProcessMemory(IntPtr hProcess, uint lpBaseAddress, [Out] byte[] lpBuffer, int dwSize, IntPtr lpNumberOfBytesRead);
 
         [DllImport("kernel32.dll")]
         private static extern bool WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, IntPtr lpNumberOfBytesWritten);
@@ -60,6 +60,15 @@ namespace MouseThingy
 
             int bytesWritten = 0;
             return WriteProcessMemory(processHandle, memoryAddress, data, data.Length, new IntPtr(bytesWritten));
+        }
+
+        public static bool ReadFromMemory(uint memoryAddress, [Out] byte[] data)
+        {
+            if (!connected)
+                return false;
+
+            int bytesRead = 0;
+            return ReadProcessMemory(processHandle, memoryAddress, data, data.Length, new IntPtr(bytesRead));
         }
     }
 }
