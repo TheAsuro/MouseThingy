@@ -106,6 +106,16 @@ namespace MouseThingy
             return uint.TryParse(tb_vaddr.Text, out addr);
         }
 
+        public bool GetFovAddr(out uint addr)
+        {
+            return uint.TryParse(tbFov.Text, out addr);
+        }
+
+        public void SetFovText(float fov)
+        {
+            tbFov.Text = "Fov: " + fov;
+        }
+
         private void Test_Click(object sender, EventArgs e)
         {
             MouseInput.Start(this);

@@ -83,10 +83,14 @@ namespace MouseThingy
 
             oldMousePos = new Vector2(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
-            byte[] fovdata = new byte[4];
-            HaloMemoryWriter.ReadFromMemory((uint)0x00D684B4 , fovdata);
-            float fov = BitConverter.ToSingle(fovdata, 0);
-            _f.lblFov.Text = "Fov: " + fov;
+            uint fovAddr;
+            if (_f.GetFovAddr(out fovAddr))
+            {
+                byte[] fovdata = new byte[4];
+                HaloMemoryWriter.ReadFromMemory(fovAddr , fovdata);
+                float fov = BitConverter.ToSingle(fovdata, 0);
+                _f.SetFovText(fov);
+            }
         }
     }
 
