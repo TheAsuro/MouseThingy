@@ -46,6 +46,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
+            this.lblFov = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // bnUpdate
@@ -206,11 +207,22 @@
             this.label7.TabIndex = 11;
             this.label7.Text = "V Address";
             // 
+            // lblFov
+            // 
+            this.lblFov.AutoSize = true;
+            this.lblFov.Enabled = false;
+            this.lblFov.Location = new System.Drawing.Point(9, 213);
+            this.lblFov.Name = "lblFov";
+            this.lblFov.Size = new System.Drawing.Size(28, 13);
+            this.lblFov.TabIndex = 14;
+            this.lblFov.Text = "Fov:";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(476, 204);
+            this.ClientSize = new System.Drawing.Size(476, 246);
+            this.Controls.Add(this.lblFov);
             this.Controls.Add(this.tb_vaddr);
             this.Controls.Add(this.tb_haddr);
             this.Controls.Add(this.Test);
@@ -256,6 +268,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label7;
+        public System.Windows.Forms.Label lblFov;
     }
 }
 

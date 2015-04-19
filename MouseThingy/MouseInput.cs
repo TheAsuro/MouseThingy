@@ -11,7 +11,7 @@ namespace MouseThingy
 {
     static class MouseInput
     {
-        
+        private const float defaultMouseSpeed = 1.380555391f;
 
         [DllImport("user32.dll")]
         public static extern bool GetCursorPos(out Vector2 lpPoint);
@@ -82,6 +82,11 @@ namespace MouseThingy
             SetCursorPos(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
             oldMousePos = new Vector2(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+
+            byte[] fovdata = new byte[4];
+            HaloMemoryWriter.ReadFromMemory((uint)0x00D684B4 , fovdata);
+            float fov = BitConverter.ToSingle(fovdata, 0);
+            _f.lblFov.Text = "Fov: " + fov;
         }
     }
 
