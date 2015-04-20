@@ -23,6 +23,10 @@ namespace MouseThingy
         [DllImport("kernel32.dll")]
         private static extern bool WriteProcessMemory(IntPtr hProcess, uint lpBaseAddress, byte[] lpBuffer, int nSize, IntPtr lpNumberOfBytesWritten);
 
+        [DllImport("user32.dll")]
+        [return: MarshalAs(UnmanagedType.Bool)]
+        public static extern bool IsIconic(IntPtr hWnd);
+
         private static Process selectedProcess;
         private static IntPtr processHandle;
         private static bool connected = false;
@@ -69,6 +73,11 @@ namespace MouseThingy
 
             int bytesRead = 0;
             return ReadProcessMemory(processHandle, memoryAddress, data, data.Length, new IntPtr(bytesRead));
+        }
+
+        public static bool IsWindowMinimized()
+        {
+            return IsIconic(selectedProcess.MainWindowHandle);
         }
     }
 }

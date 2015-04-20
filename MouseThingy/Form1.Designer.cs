@@ -166,6 +166,7 @@
             this.tb_haddr.Name = "tb_haddr";
             this.tb_haddr.Size = new System.Drawing.Size(100, 20);
             this.tb_haddr.TabIndex = 13;
+            this.tb_haddr.Text = "805326032";
             // 
             // tb_vaddr
             // 
@@ -173,6 +174,7 @@
             this.tb_vaddr.Name = "tb_vaddr";
             this.tb_vaddr.Size = new System.Drawing.Size(100, 20);
             this.tb_vaddr.TabIndex = 13;
+            this.tb_vaddr.Text = "805326036";
             // 
             // tb_vmul
             // 
@@ -231,9 +233,9 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(368, 213);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(63, 13);
+            this.label8.Size = new System.Drawing.Size(69, 13);
             this.label8.TabIndex = 15;
-            this.label8.Text = "FOV Adress";
+            this.label8.Text = "FOV Address";
             // 
             // Form1
             // 

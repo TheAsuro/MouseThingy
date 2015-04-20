@@ -79,7 +79,9 @@ namespace MouseThingy
 
             oldMousePos = newMousePos;
 
-            SetCursorPos(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
+            // Center cursor if not minimized
+            if (!HaloMemoryWriter.IsWindowMinimized())
+                SetCursorPos(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
             oldMousePos = new Vector2(Screen.PrimaryScreen.Bounds.Width / 2, Screen.PrimaryScreen.Bounds.Height / 2);
 
@@ -87,7 +89,7 @@ namespace MouseThingy
             if (_f.GetFovAddr(out fovAddr))
             {
                 byte[] fovdata = new byte[4];
-                HaloMemoryWriter.ReadFromMemory(fovAddr , fovdata);
+                HaloMemoryWriter.ReadFromMemory(fovAddr, fovdata);
                 float fov = BitConverter.ToSingle(fovdata, 0);
                 _f.SetFovText(fov);
             }
